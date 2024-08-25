@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:news_sun_c11/data/api_manager.dart';
 import 'package:news_sun_c11/ui/screens/home/home.dart';
 
 void main() {
   runApp(const MyApp());
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 

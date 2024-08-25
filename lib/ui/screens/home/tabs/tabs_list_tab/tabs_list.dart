@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:news_sun_c11/data/api_manager.dart';
 import 'package:news_sun_c11/data/model/source_response.dart';
-import 'package:news_sun_c11/ui/screens/home/tabs/news_list.dart';
+import 'package:news_sun_c11/ui/screens/home/tabs/tabs_list_tab/news_list.dart';
 import 'package:news_sun_c11/ui/widgets/error_view.dart';
 import 'package:news_sun_c11/ui/widgets/loading_view.dart';
 
-import '../../../../data/model/source.dart';
+import '../../../../../data/model/source.dart';
 
 class TabsList extends StatefulWidget {
-  const TabsList({super.key});
+  final String categoryId;
+
+  const TabsList(this.categoryId, {super.key});
 
   @override
   State<TabsList> createState() => _TabsListState();
@@ -20,10 +22,11 @@ class _TabsListState extends State<TabsList> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<SourceResponse>(
-        future: ApiManager.getSources(),
+        future: ApiManager.getSources(widget.categoryId),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            return ErrorView(error: snapshot.error.toString(), onRetryClick: (){});
+            return ErrorView(
+                error: snapshot.error.toString(), onRetryClick: () {});
           } else if (snapshot.hasData) {
             return buildTabsList(snapshot.data!.sources!);
           } else {
@@ -37,9 +40,8 @@ class _TabsListState extends State<TabsList> {
         .map((source) =>
             mapSourceToTab(source, selectedTabIndex == sources.indexOf(source)))
         .toList();
-    List<Widget> tabsBody = sources
-        .map((source) => NewsList(source: source))
-        .toList();
+    List<Widget> tabsBody =
+        sources.map((source) => NewsList(source: source)).toList();
     return DefaultTabController(
       length: sources.length,
       child: Column(
@@ -76,4 +78,3 @@ class _TabsListState extends State<TabsList> {
     );
   }
 }
-

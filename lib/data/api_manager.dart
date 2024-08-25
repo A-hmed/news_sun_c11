@@ -10,9 +10,9 @@ abstract class ApiManager {
   static const String _sourcesEndPoint = "/v2/top-headlines/sources";
   static const String _articlesEndPoint = "/v2/everything";
 
-  static Future<SourceResponse> getSources() async {
-    Response serverResponse =
-        await get(Uri.parse('$_baseUrl$_sourcesEndPoint?apiKey=$_apiKey'));
+  static Future<SourceResponse> getSources(String categoryId) async {
+    Response serverResponse = await get(Uri.parse(
+        '$_baseUrl$_sourcesEndPoint?apiKey=$_apiKey&category=$categoryId'));
     if(serverResponse.statusCode >= 200 && serverResponse.statusCode < 300){
       Map json = jsonDecode(serverResponse.body) as Map;
       SourceResponse response = SourceResponse.fromJson(json);
