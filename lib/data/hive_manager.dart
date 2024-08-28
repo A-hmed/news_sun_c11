@@ -1,6 +1,8 @@
 import 'package:hive_flutter/adapters.dart';
+import 'package:injectable/injectable.dart';
 import 'package:news_sun_c11/data/model/source_response.dart';
 
+@injectable
 class HiveManager {
   static void init() async {
     await Hive.initFlutter();

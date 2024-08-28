@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:news_sun_c11/data/hive_manager.dart';
 import 'package:news_sun_c11/ui/screens/home/home.dart';
 
+import 'di.dart';
+
 void main() {
+  configureDependencies();
   HiveManager.init();
   runApp(const MyApp());
 }

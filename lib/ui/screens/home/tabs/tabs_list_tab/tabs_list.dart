@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_sun_c11/di.dart';
 import 'package:news_sun_c11/ui/base/base_api_state.dart';
 import 'package:news_sun_c11/ui/screens/home/tabs/tabs_list_tab/news_list.dart';
 import 'package:news_sun_c11/ui/screens/home/tabs/tabs_list_tab/tabs_view_model.dart';
@@ -18,7 +19,7 @@ class TabsList extends StatefulWidget {
 }
 
 class _TabsListState extends State<TabsList> {
-  TabsViewModel viewModel = TabsViewModel();
+  TabsViewModel viewModel = getIt();
   int selectedTabIndex = 0;
 
   @override
