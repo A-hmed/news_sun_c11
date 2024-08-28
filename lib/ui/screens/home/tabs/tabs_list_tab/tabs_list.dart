@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_sun_c11/ui/base/base_api_state.dart';
 import 'package:news_sun_c11/ui/screens/home/tabs/tabs_list_tab/news_list.dart';
 import 'package:news_sun_c11/ui/screens/home/tabs/tabs_list_tab/tabs_view_model.dart';
@@ -29,24 +30,25 @@ class _TabsListState extends State<TabsList> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => viewModel,
-      builder: (context, _) {
-        viewModel = Provider.of(context);
-        if (viewModel.sourcesApiState is BaseLoadingState) {
-          return const LoadingView();
-        } else if (viewModel.sourcesApiState is BaseErrorState) {
-          String errorMessage =
-              (viewModel.sourcesApiState as BaseErrorState).errorMessage;
-          return ErrorView(error: errorMessage, onRetryClick: () {});
-        } else {
-          List<Source> sources =
-              (viewModel.sourcesApiState as BaseSuccessState<List<Source>>)
-                  .data;
-          return buildTabsList(sources);
-        }
-      },
-    );
+    return BlocProvider(create: (_) => viewModel, child: BlocBuilder,);
+    // return ChangeNotifierProvider(
+    //   create: (_) => viewModel,
+    //   builder: (context, _) {
+    //     viewModel = Provider.of(context);
+    //     if (viewModel.sourcesApiState is BaseLoadingState) {
+    //       return const LoadingView();
+    //     } else if (viewModel.sourcesApiState is BaseErrorState) {
+    //       String errorMessage =
+    //           (viewModel.sourcesApiState as BaseErrorState).errorMessage;
+    //       return ErrorView(error: errorMessage, onRetryClick: () {});
+    //     } else {
+    //       List<Source> sources =
+    //           (viewModel.sourcesApiState as BaseSuccessState<List<Source>>)
+    //               .data;
+    //       return buildTabsList(sources);
+    //     }
+    //   },
+    // );
     // return FutureBuilder<SourceResponse>(
     //     future: ApiManager.getSources(widget.categoryId),
     //     builder: (context, snapshot) {
