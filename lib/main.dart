@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:news_sun_c11/data/hive_manager.dart';
 import 'package:news_sun_c11/ui/screens/home/home.dart';
 
 void main() {
+  HiveManager.init();
   runApp(const MyApp());
 }
 class MyApp extends StatelessWidget {

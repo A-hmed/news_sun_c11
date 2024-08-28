@@ -5,7 +5,6 @@ import 'package:news_sun_c11/ui/screens/home/tabs/tabs_list_tab/news_list.dart';
 import 'package:news_sun_c11/ui/screens/home/tabs/tabs_list_tab/tabs_view_model.dart';
 import 'package:news_sun_c11/ui/widgets/error_view.dart';
 import 'package:news_sun_c11/ui/widgets/loading_view.dart';
-import 'package:provider/provider.dart';
 
 import '../../../../../data/model/source.dart';
 
@@ -30,7 +29,26 @@ class _TabsListState extends State<TabsList> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(create: (_) => viewModel, child: BlocBuilder,);
+    return BlocProvider(
+      create: (_) => viewModel,
+      child: BlocBuilder<TabsViewModel, TabsViewModelState>(
+          builder: (context, state) {
+        if (state.sourcesApiState is BaseSuccessState) {
+          BaseSuccessState baseSuccessState =
+              state.sourcesApiState as BaseSuccessState<List<Source>>;
+          return buildTabsList(baseSuccessState.data);
+        } else if (state.sourcesApiState is BaseErrorState) {
+          BaseErrorState errorState = state.sourcesApiState as BaseErrorState;
+          return ErrorView(
+              error: errorState.errorMessage,
+              onRetryClick: () {
+                viewModel.getSources(widget.categoryId);
+              });
+        } else {
+          return const LoadingView();
+        }
+      }),
+    );
     // return ChangeNotifierProvider(
     //   create: (_) => viewModel,
     //   builder: (context, _) {
